@@ -127,13 +127,14 @@ df.reset_index(inplace=True)
 """# Moving data set to feature store (incorporating Hopsworks)"""
 
 import hopsworks
+import os
+api_key = os.environ['API_KEY']
 
-project = hopsworks.login(api_key_file = '.hw_api_key')
+project = hopsworks.login(api_key_value = api_key)
 
 fs = project.get_feature_store()
 
 #incrementing data version number
-import os
 if not os.path.exists('version.txt'):
     with open('version.txt','w') as f:
         f.write('0')
