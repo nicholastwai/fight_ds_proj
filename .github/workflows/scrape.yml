@@ -15,4 +15,6 @@ jobs:
     - name: Download python script
       run: wget https://raw.githubusercontent.com/nicholastwai/fight_ds_proj/main/feature_pipeline.py
     - name: Run python script
+      env:
+          API_KEY: ${{ secrets.API_KEY }}
       run: python feature_pipeline.py
