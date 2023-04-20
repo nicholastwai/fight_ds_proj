@@ -1,7 +1,7 @@
 name: scrape 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 */12 * * *'
 jobs:
   scrape:
     runs-on: ubuntu-latest
@@ -9,7 +9,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
     - name: Install dependencies
-      run: pip install pandas hopsworks hsfs[python]==3.0.0
+      run: pip install pandas hopsworks hsfs[python]>=3.0.0
     - name: Install data scraper
       run: pip install -e git+https://github.com/nicholastwai/UFC_Data_Scraper.git#egg=UFC_Data_Scraper 
     - name: Download python script
