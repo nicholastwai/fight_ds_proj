@@ -9,7 +9,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
     - name: Install dependencies
-      run: pip install pandas hsfs[hive]~=[HOPSWORKS_VERSION] hopsworks
+      run: pip install pandas hsfs[hive]~=[3.1.0] hopsworks==3.1.0
     - name: Install data scraper
       run: pip install -e git+https://github.com/nicholastwai/UFC_Data_Scraper.git#egg=UFC_Data_Scraper 
     - name: Download python script
