@@ -17,11 +17,8 @@ jobs:
     - name: Install dependencies
       run: pip install pandas hsfs hopsworks==3.0.5
       
-    - name: Add pip action
-      run: pip --exists-action w 
-      
     - name: Install data scraper
-      run: pip install -e git+https://github.com/nicholastwai/UFC_Data_Scraper.git#egg=UFC_Data_Scraper
+      run: pip install -e git+https://github.com/nicholastwai/UFC_Data_Scraper.git#egg=UFC_Data_Scraper --exists-action w
       
     - name: Download python script
       run: wget https://raw.githubusercontent.com/nicholastwai/fight_ds_proj/main/feature_pipeline.py
