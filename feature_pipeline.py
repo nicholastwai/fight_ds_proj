@@ -66,8 +66,8 @@ athletes_df.drop(indexNullHeight, inplace = True)
 # dropping td defense, birthdate, and no_contest columns
 athletes_df.drop(columns = ['no_contest', 'DOB', 'takedown_defense', 'name'], inplace = True)
 
-# these features were deemed not useless by random forest feature selector 
-athletes_df.drop(columns = ['height', 'weight', 'reach', 'stance', 'sub_average'], inplace = True)
+# these features were deemed not useful by random forest feature selector 
+athletes_df.drop(columns = ['weight', 'sub_average'], inplace = True)
 
 # transforming height feature to inches
 heights = athletes_df['height']
@@ -79,9 +79,16 @@ for i in range(heights.size):
 
 athletes_df['height'] = height_inches
 
+# creating ape index feature
+ape_index = pd.Series('float64')
+
+for i in range(athletes_df.shape[0]):
+    ape_index[i] = athletes_df['reach'][i]/athletes_df['height'][i]
+
+athletes_df['ape_index'] = ape_index
+
 # typecasting everything from string to int
 athletes_df = athletes_df.apply(pd.to_numeric)
-
 
 """# Creating fighter matchups for final fight dataset to train models on"""
 
@@ -95,17 +102,18 @@ for i in range(all_events_df.shape[0]):
       try:
         s1 = athletes_df.loc[fight['fighter1']]
         s2 = athletes_df.loc[fight['fighter2']]
-        s1.index = ['wins1', 'loss1', 'splm1', 'sig_acc1', 'sig_absorbed1', 
-                        'sig_strike_defense1', 'average_takedown1', 'takedown_acc1']
-        s2.index = ['wins2', 'loss2', 'splm2', 'sig_acc2', 'sig_absorbed2', 
-                        'sig_strike_defense2', 'average_takedown2', 'takedown_acc2']
+        s1.index = ['height1', 'reach1', 'stance1', 'wins1', 'loss1', 'splm1',
+        'sig_acc1', 'sig_absorbed1', 'sig_strike_defense1', 'average_takedown1',
+        'takedown_acc1', 'ape_index1']
+        s2.index = ['height2', 'reach2', 'stance2', 'wins2', 'loss2', 'splm2',
+        'sig_acc2', 'sig_absorbed2', 'sig_strike_defense2', 'average_takedown2',
+        'takedown_acc2', 'ape_index2']
         s3 = pd.concat([s1, s2])
         s3['winner'] = fight['winner']
         df = pd.concat([df, s3], axis = 1)
       except:
         pass
 df = df.transpose()
-
 
 # setting index so that dropping invalid rows by indices works
 df.reset_index(inplace=True)
@@ -123,6 +131,28 @@ df.drop(inplace = True, columns = ['index'])
 # creating index column for Hopsworks primary key
 df.reset_index(inplace=True)
 
+# adding same stance feature
+same_stance = pd.Series('float64')
+for i in range(df.shape[0]):
+  if df['stance1'][i] == df['stance2'][i]:
+    same_stance[i] = 1
+  else:
+    same_stance[i] = 0
+df['same_stance'] = same_stance
+
+# adding height difference feature
+height_dif = pd.Series('float64')
+for i in range(df.shape[0]):
+  height_dif[i] = df['height1'][i] - df['height2'][i]
+df['height_dif'] = height_dif
+
+#removing features deemed unimportant by rf feauture selection
+df.drop(columns = ['height', 'reach', 'stance'], inplace = True)
+
+#reset winner to right most column
+winner = df['winner']
+df.drop(columns = ['winner'], inplace=True)
+df['winner'] = winner
 
 """# Moving data set to feature store (incorporating Hopsworks)"""
 
