@@ -79,6 +79,9 @@ for i in range(heights.size):
 
 athletes_df['height'] = height_inches
 
+# typecasting everything from string to int
+athletes_df = athletes_df.apply(pd.to_numeric)
+
 # creating ape index feature
 ape_index = pd.Series('float64')
 
@@ -86,9 +89,6 @@ for i in range(athletes_df.shape[0]):
     ape_index[i] = athletes_df['reach'][i]/athletes_df['height'][i]
 
 athletes_df['ape_index'] = ape_index
-
-# typecasting everything from string to int
-athletes_df = athletes_df.apply(pd.to_numeric)
 
 """# Creating fighter matchups for final fight dataset to train models on"""
 
