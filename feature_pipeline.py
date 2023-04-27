@@ -192,6 +192,7 @@ feature_descriptions = [
     {"name": "sig_strike_defense1", "description": "fighter 1's significant strike defense (% of opponent's strikes that did not land)"}, 
     {"name": "average_takedown1", "description": "average number of takedowns attempted per 15 minutes by fighter 1"},
     {"name": "takedown_acc1", "description": "takedown accuracy of fighter 1"},
+    {"name": "ape_index1", "description": "reach to height ratio of fighter 1"},
     {"name": "wins2", "description": "number of wins in fighter 2's record"}, 
     {"name": "loss2", "description": "number of losses in fighter 2's record"}, 
     {"name": "splm2", "description": "significant strikes landed per min by fighter 2"}, 
@@ -199,7 +200,11 @@ feature_descriptions = [
     {"name": "sig_absorbed2", "description": "fighter 2's significant strikes absorbed per minute"}, 
     {"name": "sig_strike_defense2", "description": "fighter 2's significant strike defense (% of opponent's strikes that did not land)"}, 
     {"name": "average_takedown2", "description": "average number of takedowns attempted per 15 minutes by fighter 2"},
-    {"name": "takedown_acc2", "description": "takedown accuracy of fighter 2"},  
+    {"name": "takedown_acc2", "description": "takedown accuracy of fighter 2"},
+    {"name": "ape_index2", "description": "reach to height ratio of fighter 2"},
+    {"name": "height_dif", "description": "difference in fighter height, height1-height2"},
+    {"name": "same_stance", "description": "whether or not the two fighters have the same stance"},
+    {"name": "winner", "description": "winner of the fight between fighter 1 and fighter 2"}  
 ]
 
 for desc in feature_descriptions: 
