@@ -1,19 +1,28 @@
 name: scrape 
 on:
   schedule:
-    - cron: '0 12 * * 4'
+    - cron: '0 */4 * * *'
 jobs:
   scrape:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+      
+    - name: setup python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9.13'
+        
     - name: Install dependencies
-      run: pip install pandas hopsworks
+      run: pip install pandas hsfs hopsworks==3.0.5
+      
     - name: Install data scraper
-      run: pip install -e git+https://github.com/nicholastwai/UFC_Data_Scraper.git#egg=UFC_Data_Scraper 
+      run: pip install -e git+https://github.com/nicholastwai/UFC_Data_Scraper.git#egg=UFC_Data_Scraper --exists-action w
+      
     - name: Download python script
       run: wget https://raw.githubusercontent.com/nicholastwai/fight_ds_proj/main/feature_pipeline.py
+      
     - name: Run python script
       env:
           API_KEY: ${{ secrets.API_KEY }}
