@@ -147,7 +147,7 @@ for i in range(df.shape[0]):
 df['height_dif'] = height_dif
 
 #removing features deemed unimportant by rf feauture selection
-df.drop(columns = ['height', 'reach', 'stance'], inplace = True)
+df.drop(columns = ['height1', 'reach1', 'stance1', 'height2', 'reach2', 'stance2'], inplace = True)
 
 #reset winner to right most column
 winner = df['winner']
