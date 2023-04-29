@@ -80,7 +80,7 @@ for i in range(heights.size):
 athletes_df['height'] = height_inches
 
 # typecasting everything from string to int
-athletes_df = athletes_df.apply(pd.to_numeric)
+athletes_df = athletes_df.astype('float')
 
 # creating ape index feature
 ape_index = pd.Series('float64')
