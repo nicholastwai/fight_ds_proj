@@ -154,6 +154,8 @@ winner = df['winner']
 df.drop(columns = ['winner'], inplace=True)
 df['winner'] = winner
 
+df = df.apply(pd.to_numeric)
+
 """# Moving data set to feature store (incorporating Hopsworks)"""
 
 import hopsworks
